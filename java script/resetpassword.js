@@ -17,7 +17,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', async (e
 
         if (data.status === 'success') {
             alert('Password reset successful');
-            window.location.href = '../html/index.html';
+            window.location.href = './index.html';
         } else {
             alert(data.message);
         }

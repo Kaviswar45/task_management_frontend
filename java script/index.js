@@ -19,7 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             localStorage.setItem('token', result.token);
             //window.location.href='../home/home.html';
             if (result.profileExists==1){
-                window.location.href='../home/home.html';
+                window.location.href='./home/home.html';
             }
             else{
                 window.location.href='./completeProfile.html'
