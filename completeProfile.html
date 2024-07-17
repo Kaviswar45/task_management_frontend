@@ -89,6 +89,13 @@
             const date_of_birth = document.getElementById('date_of_birth').value;
             const bio = document.getElementById('bio').value;
 
+            // Check if date of birth is greater than today's date
+            const today = new Date().toISOString().split('T')[0];
+            if (date_of_birth > today) {
+                alert('Date of Birth cannot be greater than today\'s date');
+                return;
+            }
+
             try {
                 const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/addprofile', {
                     method: 'POST',

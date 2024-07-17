@@ -2,6 +2,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', async (e
     e.preventDefault();
 
     const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
     const newPassword = document.getElementById('newPassword').value;
 
     try {
@@ -10,7 +11,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', async (e
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, newPassword }),
+            body: JSON.stringify({ username, email, newPassword }),
         });
 
         const data = await response.json();
