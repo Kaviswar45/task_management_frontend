@@ -31,7 +31,7 @@
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto">
+      <a href="home.html" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <img src="assets/img/logo.png" alt="">
         <h1 class="sitename">AgendaAce</h1>
@@ -306,7 +306,7 @@
   <div class="container footer-top">
     <div class="row gy-4">
       <div class="col-lg-4 col-md-6 footer-about">
-        <a href="index.html" class="d-flex align-items-center">
+        <a href="home.html" class="d-flex align-items-center">
           <span class="sitename">AgendaAce</span>
         </a>
       </div>
@@ -372,11 +372,11 @@ async function decodeToken() {
         console.log(token);
 
         if (!token) {
-            window.location.href = '../html/login.html'
+            window.location.href = '../html/index.html'
             return;
         }
 
-        const response = await fetch('http://localhost:3000/api/decodeToken', {
+        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/decodeToken', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -392,12 +392,12 @@ async function decodeToken() {
         } else {
             console.error('Failed to decode token:', response.statusText);
             if (response.status === 401) { // 401 Unauthorized
-                window.location.href = '../html/login.html';
+                window.location.href = '../html/index.html';
             }
         }
     } catch (error) {
         console.error('Error in decodeToken:', error.message);
-        window.location.href = '../html/login.html';
+        window.location.href = '../html/index.html';
     }
 }
 
@@ -409,7 +409,7 @@ window.onload = function() {
 <script>
   function logout() {
     localStorage.removeItem('username'); // Remove username from local storage
-    window.location.href = '../html/login.html'; // Redirect to login page
+    window.location.href = '../html/index.html'; // Redirect to login page
   }
 </script>
 </body>

@@ -5,7 +5,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com//api/login', {
+        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,9 +17,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         console.log(result)
         if (response.ok) {
             localStorage.setItem('token', result.token);
-            //window.location.href='../home/index.html';
+            //window.location.href='../home/home.html';
             if (result.profileExists==1){
-                window.location.href='../home/index.html';
+                window.location.href='../home/home.html';
             }
             else{
                 window.location.href='./completeProfile.html'

@@ -6,7 +6,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com//api/register', {
+        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
 
         if (data.status === 'success') {
             alert(data.message);
-            window.location.href = data.redirectTo;
+            window.location.href = './index.html';
         } else {
             alert(data.message); // Show the error message if registration fails
         }
