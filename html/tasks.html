@@ -201,7 +201,7 @@
                 if (!token) {
                     window.location.href = './login.html';
                 }
-                const response = await fetch('http://localhost:3000/api/decodeToken', {
+                const response = await fetch('https://taskmanagement-backend-xalx.onrender.com//api/decodeToken', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -233,7 +233,7 @@
             const due_time = document.getElementById('due_time').value;
 
             try {
-                const response = await fetch('http://localhost:3000/api/tasks', {
+                const response = await fetch('https://taskmanagement-backend-xalx.onrender.com//api/tasks', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
