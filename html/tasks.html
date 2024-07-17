@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding-top: 30px; /* Reduced padding for space above */
+            background: url('https://www.transparenttextures.com/patterns/asfalt-light.png'), linear-gradient(to bottom right, #4154f1, #c8c8c8);
+            background-attachment: fixed;
+            background-size: cover;
+            color: #4154f1;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px; /* Adjusted margin for better alignment */
+            margin-bottom: 50px; /* Added margin for bottom spacing */
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #4154f1;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            padding: 20px;
+            text-align: center;
+        }
+        .card h2, .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        .card p {
+            font-size: 1rem;
+            margin: 5px 0;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #4154f1;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #3341c1;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 997;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header .container-fluid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-right: auto;
+        }
+        .logo img {
+            max-height: 50px;
+            margin-right: 10px;
+        }
+        .sitename {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #012970;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .sitename:hover {
+            text-decoration: none;
+        }
+        .navmenu {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        .navmenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .navmenu ul li {
+            margin: 0 10px;
+        }
+        .navmenu ul li a {
+            color: #012970;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .navmenu ul li a:hover,
+        .navmenu ul li a.active {
+            color: #4154f1;
+            text-decoration: none;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .btn-getstarted {
+            background-color: #4154f1;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-getstarted:hover {
+            background-color: #3341c1;
+        }
+    </style>
+</head>
+<body>
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl d-flex align-items-center">
+            <div class="logo d-flex align-items-center me-auto">
+                <img src="../home/assets/img/logo.png" alt="">
+                <h1 class="sitename">AgendaAce</h1>
+            </div>
+            <nav id="navmenu" class="navmenu ml-auto">
+                <ul>
+                    <li><a href="../home/index.html">Home</a></li>
+                    <li><a href="../home/index.html#about">About</a></li>
+                    <li><a href="../html/updateprofile.html">Profile</a></li>
+                    <li><a href="../html/tasks.html" class="active">Create tasks</a></li>
+                    <li><a href="../html/viewtasks.html">Tasks</a></li>
+                </ul>
+            </nav>
+            <button class="btn-getstarted" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Create Task</h2>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="description">Task Description</label>
+                    <textarea class="form-control" id="description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" required>
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select class="form-control" id="priority">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" id="category" required>
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" class="form-control" id="due_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="due_time">Due Time</label>
+                    <input type="time" class="form-control" id="due_time" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let token;
+        let username;
+
+        async function decodeToken() {
+            try {
+                token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = './login.html';
+                }
+                const response = await fetch('http://localhost:3000/api/decodeToken', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ token: token })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    username = data.username;
+                } else {
+                    console.error('Failed to decode token:', response.statusText);
+                    window.location.href = './login.html';
+                }
+            } catch (error) {
+                console.error('Error in decodeToken:', error.message);
+                window.location.href = './login.html';
+            }
+        }
+
+        document.getElementById('taskForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const description = document.getElementById('description').value;
+            const status = document.getElementById('status').value;
+            const priority = document.getElementById('priority').value;
+            const category = document.getElementById('category').value;
+            const due_date = document.getElementById('due_date').value;
+            const due_time = document.getElementById('due_time').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ username, description, status, priority, category, due_date, due_time })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Task created successfully!');
+                    window.location.href = './tasks.html'; // Redirect to tasks page
+                } else {
+                    alert('Task creation failed: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Task creation failed');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = './login.html';
+        }
+
+        window.onload = function() {
+            decodeToken();
+        }
+    </script>
+</body>
+</html>
