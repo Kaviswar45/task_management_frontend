@@ -5,7 +5,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/login', {
+        const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

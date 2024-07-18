@@ -6,7 +6,7 @@ document.getElementById('resetPasswordForm').addEventListener('submit', async (e
     const newPassword = document.getElementById('newPassword').value;
 
     try {
-        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/reset-password', {
+        const response = await fetch('https://task-management-backend-6ezu.onrender.com/reset-password', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

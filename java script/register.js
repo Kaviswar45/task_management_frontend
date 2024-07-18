@@ -6,7 +6,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/register', {
+        const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

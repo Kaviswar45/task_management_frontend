@@ -179,7 +179,7 @@
                 if (!token) {
                     window.location.href = './index.html';
                 }
-                const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/decodeToken', {
+                const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/decodeToken', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -203,7 +203,7 @@
 
         async function fetchTasks(username) {
             try {
-                const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/tasks/view', {
+                const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/tasks/view', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -288,7 +288,7 @@
                 const due_date = taskForm.querySelector(`#due_date-${taskId}`).value;
                 const due_time = taskForm.querySelector(`#due_time-${taskId}`).value;
 
-                const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/tasks/update', {
+                const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/tasks/update', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -310,7 +310,7 @@
 
         async function deleteTask(taskId) {
             try {
-                const response = await fetch('https://taskmanagement-backend-xalx.onrender.com/api/tasks/deleteTask', {
+                const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/tasks/deleteTask', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
