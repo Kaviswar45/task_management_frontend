@@ -13,18 +13,15 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             body: JSON.stringify({ username, password }),
         });
 
-        const result = await response.json();
-        console.log(result)
-        if (response.ok) {
-            localStorage.setItem('token', result.token);
-            //window.location.href='../home/home.html';
-            if (result.profileExists==1){
-                window.location.href='./home/home.html';
-            }
-            else{
-                window.location.href='./completeProfile.html'
-            }
+        if (!response.ok) {
+            throw new Error('Login failed');
         }
+
+        const result = await response.json();
+
+        localStorage.setItem('token', result.token);
+
+        window.location.href = './home/home.html';
     } catch (error) {
         console.error('Error:', error);
         alert('Login failed');

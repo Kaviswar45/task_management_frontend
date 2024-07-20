@@ -140,6 +140,9 @@
         .tasks-card {
             background: linear-gradient(145deg, #c8c8c8, #f0f0f3);
         }
+        .projects-card {
+            background: linear-gradient(145deg, #e0e0e0, #b8b8b8);
+        }
     </style>
 </head>
 <body>
@@ -152,20 +155,22 @@
             <nav id="navmenu" class="navmenu ml-auto">
                 <ul>
                     <li><a href="./home/home.html" class="active">Home</a></li>
-                    <li><a href="./home/home.html#about">About</a></li>
                     <li><a href="./updateprofile.html">Profile</a></li>
+                    <li><a href="./createproject.html">Create Project</a></li>
                     <li><a href="./tasks.html">Create tasks</a></li>
                     <li><a href="./viewtasks.html">Tasks</a></li>
+                    <li><a href="./notification.html"><i class="fas fa-bell"></i></a></li>
                 </ul>
             </nav>
             <button class="btn-getstarted" onclick="logout()">Logout</button>
         </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     </header>
 
-    <div class="container">
+    <div class="container">  
         <div class="card profile-card">
             <h2 id="name"></h2>
-            <p id="bio"></p>
+            <p id="email"></p>
             <p id="dob"></p>
             <button class="btn btn-primary" onclick="showEditProfileForm()">Edit Profile</button>
         </div>
@@ -186,35 +191,31 @@
                 </div>
             </div>
         </div>
-        <div class="card edit-profile-card" style="display: none;">
-            <h3>Edit Profile</h3>
-            <form id="edit-profile-form">
-                <div class="form-group">
-                    <label for="first_name">First Name</label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" required>
-                </div>
-                <div class="form-group">
-                    <label for="last_name">Last Name</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" required>
-                </div>
-                <div class="form-group">
-                    <label for="bio">Bio</label>
-                    <textarea class="form-control" id="bio_edit" name="bio" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="dob_edit">Date of Birth</label>
-                    <input type="date" class="form-control" id="dob_edit" name="dob" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <button type="button" class="btn btn-secondary" onclick="hideEditProfileForm()">Cancel</button>
-            </form>
+        <div class="card projects-card">
+            <h3>Projects Involved</h3>
+            <p id="projects-count">0</p>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="container" id="edit-profile-form" style="display:none;">
+        <h3>Edit Profile</h3>
+        <form onsubmit="updateProfile(event)">
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email-input" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob-input" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-secondary" onclick="hideEditProfileForm()">Cancel</button>
+        </form>
+    </div>
     <script>
         let token;
         let username;
@@ -223,8 +224,12 @@
             try {
                 token = localStorage.getItem('token');
                 if (!token) {
+                    console.log('No token found, redirecting to login page.');
                     window.location.href = './index.html';
+                    return;
                 }
+                console.log('Token found, decoding:', token);
+
                 const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/decodeToken', {
                     method: 'POST',
                     headers: {
@@ -233,8 +238,10 @@
                     },
                     body: JSON.stringify({ token: token })
                 });
+
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('Token decoded successfully:', data);
                     username = data.username;
                     fetchUserProfile();
                 } else {
@@ -242,13 +249,14 @@
                     window.location.href = './index.html';
                 }
             } catch (error) {
-                console.error('Error in decodeToken:', error.message);
+                console.error('Error decoding token:', error);
                 window.location.href = './index.html';
             }
         }
 
         async function fetchUserProfile() {
             try {
+                console.log('Fetching user profile for username:', username);
                 const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/userProfile', {
                     method: 'POST',
                     headers: {
@@ -257,80 +265,68 @@
                     },
                     body: JSON.stringify({ username: username })
                 });
+
                 if (response.ok) {
                     const data = await response.json();
-                    document.getElementById('name').textContent = `${data.first_name} ${data.last_name}`;
-                    document.getElementById('bio').textContent = data.bio;
-                    document.getElementById('dob').textContent = `Date of Birth: ${new Date(data.dob).toLocaleDateString('en-CA')}`;
+                    console.log('User profile data:', data);
+                    document.getElementById('name').textContent = data.full_name;
+                    document.getElementById('email').textContent = data.email;
+                    document.getElementById('dob').textContent = new Date(data.dob).toLocaleDateString();
                     document.getElementById('pending-count').textContent = data.tasks.pending;
                     document.getElementById('in-progress-count').textContent = data.tasks.in_progress;
                     document.getElementById('completed-count').textContent = data.tasks.completed;
+                    document.getElementById('projects-count').textContent = data.projects_count;
                 } else {
-                    console.error('Failed to fetch user profile:', response.statusText);
+                    console.error('Error fetching user profile:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error fetching user profile:', error.message);
+                console.error('Error fetching user profile:', error);
             }
         }
 
-        async function updateUserProfile(event) {
+        function showEditProfileForm() {
+            document.getElementById('edit-profile-form').style.display = 'block';
+        }
+
+        function hideEditProfileForm() {
+            document.getElementById('edit-profile-form').style.display = 'none';
+        }
+
+        async function updateProfile(event) {
             event.preventDefault();
-            const formData = new FormData(document.getElementById('edit-profile-form'));
-            const profileData = {
-                first_name: formData.get('first_name'),
-                last_name: formData.get('last_name'),
-                bio: formData.get('bio'),
-                dob: formData.get('dob'),
-            };
+
+            const fullName = document.getElementById('full-name').value;
+            const email = document.getElementById('email-input').value;
+            const dob = document.getElementById('dob-input').value;
 
             try {
-                const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/updateUserProfile', {
+                const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/updateProfile', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify(profileData)
+                    body: JSON.stringify({ username: username, full_name: fullName, email: email, dob: dob })
                 });
+
                 if (response.ok) {
+                    console.log('Profile updated successfully.');
                     fetchUserProfile();
                     hideEditProfileForm();
                 } else {
-                    console.error('Failed to update user profile:', response.statusText);
+                    console.error('Error updating profile:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error updating user profile:', error.message);
+                console.error('Error updating profile:', error);
             }
-        }
-
-        function showEditProfileForm() {
-            document.querySelector('.edit-profile-card').style.display = 'block';
-            document.getElementById('edit-profile-form').addEventListener('submit', updateUserProfile);
-
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('dob_edit').max = today;
-
-            const fullName = document.getElementById('name').textContent.split(' ');
-            document.getElementById('first_name').value = fullName[0];
-            document.getElementById('last_name').value = fullName[1];
-            document.getElementById('bio_edit').value = document.getElementById('bio').textContent;
-
-            const dobText = document.getElementById('dob').textContent.split(': ')[1];
-            document.getElementById('dob_edit').value = new Date(dobText).toISOString().split('T')[0];
-        }
-
-        function hideEditProfileForm() {
-            document.querySelector('.edit-profile-card').style.display = 'none';
-        }
-
-        window.onload = function() {
-            decodeToken();
         }
 
         function logout() {
             localStorage.removeItem('token');
             window.location.href = './index.html';
         }
+
+        window.onload = decodeToken;
     </script>
 </body>
 </html>

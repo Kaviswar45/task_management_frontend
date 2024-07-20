@@ -4,6 +4,8 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const full_name = document.getElementById('full_name').value;
+    const dob = document.getElementById('dob').value;
 
     try {
         const response = await fetch('https://task-management-backend-6ezu.onrender.com/api/register', {
@@ -11,13 +13,12 @@ document.getElementById('registerForm').addEventListener('submit', async functio
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, email, password })
+            body: JSON.stringify({ username, email, password, full_name, dob })
         });
 
         const data = await response.json();
 
         if (data.status === 'success') {
-            alert(data.message);
             window.location.href = './index.html';
         } else {
             alert(data.message); // Show the error message if registration fails
